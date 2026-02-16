@@ -133,6 +133,9 @@ Every AI tool has its own config file. Each one should **point to AGENTS.md**, n
 | Java / Spring Boot | [`templates/java-spring-boot/`](./templates/java-spring-boot/) | shipper-tms-backend |
 | Python / Django | [`templates/python-django/`](./templates/python-django/) | carrier-monolith |
 | TypeScript / Frontend | [`templates/typescript-frontend/`](./templates/typescript-frontend/) | New template |
+| Cypress / E2E QA | [`templates/cypress-e2e/`](./templates/cypress-e2e/) | cypress-e2e-web |
+| Python / FastAPI | [`templates/python-fastapi/`](./templates/python-fastapi/) | gps-tracking |
+| Go | [`templates/golang/`](./templates/golang/) | identity-token-status |
 | Common (all stacks) | [`templates/common/`](./templates/common/) | Universal pointers |
 
 ---
