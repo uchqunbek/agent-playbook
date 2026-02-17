@@ -144,31 +144,37 @@ HTTP Request
 
 ## 5. Agent Workflow
 
-### Step 1: Read
+### Step 1: Create Branch
+
+- **Never commit directly to `main`** — always create a dedicated branch
+- Branch naming: `feature/short-description`, `fix/short-description`
+- One branch per logical change
+
+### Step 2: Read
 
 - Read this file for project structure and patterns
 - Read the relevant `docs/` files for detailed conventions
 
-### Step 2: Find Similar Code
+### Step 3: Find Similar Code
 
 - Search for similar handlers/services in `internal/`
 - Study existing patterns in `cmd/` for dependency wiring
 - Check `pkg/` for available utilities
 
-### Step 3: Plan
+### Step 4: Plan
 
 - Identify which packages to create or modify
 - Check if interfaces exist for the domain
 - Plan the full stack: handler → service → repository
 
-### Step 4: Generate
+### Step 5: Generate
 
 - Follow existing patterns (copy structure from similar packages)
 - Use constructor injection for all dependencies
 - Define interfaces in the consumer package
 - Place files in correct `internal/` subdirectories
 
-### Step 5: Verify
+### Step 6: Verify
 
 <!-- CUSTOMIZE: Replace with your test commands -->
 ```bash
@@ -177,19 +183,27 @@ make integration-test         # Integration tests
 go vet ./...                  # Static analysis
 ```
 
-### Step 6: Commit
+### Step 7: Review & Submit
 
-- Follow [docs/git-conventions.md](docs/git-conventions.md)
-- Run tests before committing
+- **Self-review all changes** before creating a pull request
+  - Run `git diff` and review every changed file for correctness, style, and conventions
+  - Verify no debug code, leftover TODOs, or unintended changes are included
+  - Add meaningful comments where logic isn't self-evident — avoid redundant or obvious comments
+  - Confirm tests pass and code compiles
+- **Commit** — follow [docs/git-conventions.md](docs/git-conventions.md); run tests before committing
+- **Create a pull request** — PRs are required for all changes to be merged
 
 ---
 
 ## 6. Git Conventions
 
 <!-- CUSTOMIZE: Replace with your project's commit format -->
+- **Never commit directly to `main`** — always work on a dedicated branch
 - **Commit format:** Descriptive message explaining the change
 - **PR template:** Description, implemented changes, ticket link
 - **Branch naming:** `feature/`, `fix/`, `chore/` prefixes
+- **Self-review required** — review all changes before creating a pull request
+- **PRs required** — all changes merge through pull requests
 
 **Full details:** [docs/git-conventions.md](docs/git-conventions.md)
 

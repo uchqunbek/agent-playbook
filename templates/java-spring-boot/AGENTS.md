@@ -159,50 +159,65 @@ creating test entities. `@Autowired` in tests extending `AbstractServiceTest`.
 
 Follow this step-by-step process for every task:
 
-### Step 1: Read
+### Step 1: Create Branch
+
+- **Never commit directly to `main`** — always create a dedicated branch
+- Branch naming: `feature/TICKET-XXXX-short-description`, `fix/TICKET-XXXX-short-description`
+- One branch per logical change
+
+### Step 2: Read
 
 - Read this file for project context
 - Read the relevant `docs/` files for detailed conventions
 
-### Step 2: Find Similar Code
+### Step 3: Find Similar Code
 
 - Search for similar features, patterns, or components in the codebase
 - Study how existing code handles the same concerns (auth, transactions, DTOs, tests)
 
-### Step 3: Plan
+### Step 4: Plan
 
 - Identify which files to create or modify
 - List dependencies and side effects
 - Consider test strategy before writing production code
 
-### Step 4: Generate
+### Step 5: Generate
 
 - Follow existing patterns exactly (copy structure from similar code)
 - Use the project's annotations and conventions
 - Place code in the correct package (see Section 1)
 
-### Step 5: Test
+### Step 6: Test
 
 - Write tests following [docs/test-conventions.md](docs/test-conventions.md)
 <!-- CUSTOMIZE: Replace with your test command -->
 - Run tests: `./gradlew test --tests "*.YourNewTest"`
 - Fix any failures before proceeding
 
-### Step 6: Commit
+### Step 7: Review & Submit
 
-<!-- CUSTOMIZE: Replace with your commit format -->
-- Format: `[TICKET-NUMBER] Description` (see [docs/git-conventions.md](docs/git-conventions.md))
-- Run `./gradlew spotlessApply` before committing
-- Do not use `--no-verify`
+- **Self-review all changes** before creating a pull request
+  - Run `git diff` and review every changed file for correctness, style, and conventions
+  - Verify no debug code, leftover TODOs, or unintended changes are included
+  - Add meaningful comments where logic isn't self-evident — avoid redundant or obvious comments
+  - Confirm tests pass and code compiles
+- **Commit** — format: `[TICKET-NUMBER] Description` (see [docs/git-conventions.md](docs/git-conventions.md))
+<!-- CUSTOMIZE: Replace with your lint/format command -->
+  - Run `./gradlew spotlessApply` before committing
+  - Do not use `--no-verify`
+- **Create a pull request** — PRs are required for all changes to be merged
 
 ---
 
 ## 7. Git Conventions
 
 <!-- CUSTOMIZE: Replace with your project's commit format and ticket prefixes -->
+- **Never commit directly to `main`** — always work on a dedicated branch
 - **Commit format:** `[PROJECT-XXXX] Description` (e.g., `STMS`, `PAYM`, `SA`)
 - **Relaxed branches:** `hotfix*` and `chore*` — free-form messages allowed
 - **All others:** ticket number required (enforced by git hook)
+- **Self-review required** — review all changes before creating a pull request
+- **PRs required** — all changes merge through pull requests
 
 **Full details:** [docs/git-conventions.md](docs/git-conventions.md)
 

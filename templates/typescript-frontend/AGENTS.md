@@ -185,16 +185,17 @@ const router = createBrowserRouter([
 
 ## 7. Agent Workflow
 
-1. **Read** — this file for context, then relevant `docs/` files for code examples
-2. **Find Similar Code** — search for similar components, hooks, or API patterns in the codebase
-3. **Plan** — identify files to create/modify, decide where state lives (Section 4), plan tests
-4. **Generate** — follow existing patterns exactly; `function` keyword, named exports, `styled()`
-5. **Test** — use `renderWithProviders()` + MSW **v1** (`rest.get`, not `http.get`)
+1. **Create a branch** — never commit directly to `main`; one branch per logical change
+2. **Read** — this file for context, then relevant `docs/` files for code examples
+3. **Find Similar Code** — search for similar components, hooks, or API patterns in the codebase
+4. **Plan** — identify files to create/modify, decide where state lives (Section 4), plan tests
+5. **Generate** — follow existing patterns exactly; `function` keyword, named exports, `styled()`
+6. **Test** — use `renderWithProviders()` + MSW **v1** (`rest.get`, not `http.get`)
 <!-- CUSTOMIZE: Replace with your test command -->
    - Run: `pnpm test -- DriverCard`
-6. **Lint** — run `pnpm check` + `pnpm check:types`, fix all errors
+7. **Lint** — run `pnpm check` + `pnpm check:types`, fix all errors
 <!-- CUSTOMIZE: Replace with your lint commands -->
-7. **Commit** — `[TICKET-NUMBER] Description` format, never `--no-verify`
+8. **Review & submit** — self-review all changes (`git diff`), ensure comments are meaningful and necessary, commit with `[TICKET-NUMBER] Description` format (never `--no-verify`), then create a pull request
 <!-- CUSTOMIZE: Replace with your commit format -->
    - See [docs/git-conventions.md](docs/git-conventions.md)
 
@@ -203,9 +204,12 @@ const router = createBrowserRouter([
 ## 8. Git Conventions
 
 <!-- CUSTOMIZE: Replace with your project's commit format -->
+- **Never commit directly to `main`** — always work on a dedicated branch
 - **Format:** `[TICKET-NUMBER] Description`
 - **Relaxed branches:** `hotfix*` and `chore*` — free-form messages allowed
 - **All others:** ticket number required (enforced by Husky hook)
+- **Self-review required** — review all changes before creating a pull request
+- **PRs required** — all changes merge through pull requests
 
 ```
 # Good

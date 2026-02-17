@@ -157,21 +157,25 @@ Serializer    Publisher (pubsub/)           Django ORM
 
 ## 7. Agent Workflow
 
-1. **Read this file** — build context from architecture and key rules
-2. **Plan changes** — use feature toggles when risky/new
-3. **Generate code** following Section 2 conventions; use dedicated publishers
-4. **Add tests** using pytest with naming: `test__method__result__given_condition`
-5. **Run locally** — `make test-all` or targeted `make test target=tests/apps/...`
-6. **Commit** following [docs/git-conventions.md](docs/git-conventions.md)
+1. **Create a branch** — never commit directly to `main`; one branch per logical change
+2. **Read this file** — build context from architecture and key rules
+3. **Plan changes** — use feature toggles when risky/new
+4. **Generate code** following Section 2 conventions; use dedicated publishers
+5. **Add tests** using pytest with naming: `test__method__result__given_condition`
+6. **Run locally** — `make test-all` or targeted `make test target=tests/apps/...`
+7. **Review & submit** — self-review all changes (`git diff`), ensure comments are meaningful and necessary, commit following [docs/git-conventions.md](docs/git-conventions.md), then create a pull request
 
 ---
 
 ## 8. Git Conventions
 
 <!-- CUSTOMIZE: Replace with your project's commit format -->
+- **Never commit directly to `main`** — always work on a dedicated branch
 - **Format:** `[TICKET-NUMBER] type: description`
 - **Types:** `feature`, `fix`, `misc`, `refactor`
 - **Ticket prefixes:** CAR-, MOBILE-, PLT-, PAYM-, LM-
+- **Self-review required** — review all changes before creating a pull request
+- **PRs required** — all changes merge through pull requests
 
 ```
 # Good
