@@ -172,10 +172,12 @@ Serializer    Publisher (pubsub/)           Django ORM
 <!-- CUSTOMIZE: Replace with your project's commit format -->
 - **Never commit directly to `main`** — always work on a dedicated branch
 - **Format:** `[TICKET-NUMBER] type: description`
+- **Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely
 - **Types:** `feature`, `fix`, `misc`, `refactor`
 - **Ticket prefixes:** CAR-, MOBILE-, PLT-, PAYM-, LM-
 - **Self-review required** — review all changes before creating a pull request
 - **PRs required** — all changes merge through pull requests
+- **Follow `.github/PULL_REQUEST_TEMPLATE.md`** if the project has one
 
 ```
 # Good

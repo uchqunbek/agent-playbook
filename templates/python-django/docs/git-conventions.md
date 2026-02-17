@@ -18,6 +18,8 @@
 | `type` | Change category | `feature`, `fix`, `misc` |
 | `description` | Brief summary | `Add driver deactivation reason` |
 
+**Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely.
+
 ### Commit Types
 
 <!-- CUSTOMIZE: Replace type frequencies with your project's actual usage -->
@@ -101,6 +103,7 @@ Before creating a pull request, the agent MUST review its own changes:
 - [ ] Verify formatting and linting pass (`make ruff`)
 - [ ] Ensure commit messages follow the format above
 - [ ] Confirm no unintended files are included in the changeset
+- [ ] Follow `.github/PULL_REQUEST_TEMPLATE.md` if the project has one
 
 ---
 

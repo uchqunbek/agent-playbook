@@ -206,10 +206,12 @@ const router = createBrowserRouter([
 <!-- CUSTOMIZE: Replace with your project's commit format -->
 - **Never commit directly to `main`** — always work on a dedicated branch
 - **Format:** `[TICKET-NUMBER] Description`
+- **Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely
 - **Relaxed branches:** `hotfix*` and `chore*` — free-form messages allowed
 - **All others:** ticket number required (enforced by Husky hook)
 - **Self-review required** — review all changes before creating a pull request
 - **PRs required** — all changes merge through pull requests
+- **Follow `.github/PULL_REQUEST_TEMPLATE.md`** if the project has one
 
 ```
 # Good

@@ -13,6 +13,7 @@
 
 - **Ticket number** in square brackets: `[TMS-1234]`, `[TMS-567]`
 - **Description** should be concise and describe *what* the change does
+- **Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely
 
 ### Branch-Specific Rules
 
@@ -103,6 +104,7 @@ This project uses Husky for git hooks. **Never bypass with `--no-verify`.**
 Before opening a pull request, verify:
 
 <!-- CUSTOMIZE: Replace with your project's PR checks -->
+- [ ] Follow `.github/PULL_REQUEST_TEMPLATE.md` if the project has one
 - [ ] `pnpm check` passes (ESLint + Prettier)
 - [ ] `pnpm check:types` passes (TypeScript)
 - [ ] `pnpm test` passes (all tests green)

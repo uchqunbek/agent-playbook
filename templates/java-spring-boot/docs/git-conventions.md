@@ -13,6 +13,7 @@
 <!-- CUSTOMIZE: Replace ticket prefixes with your project's JIRA project keys -->
 - **Ticket number** must be a JIRA project key in square brackets: `[STMS-1234]`, `[PAYM-5678]`
 - **Description** should be concise and describe *what* the change does
+- **Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely
 
 ### Branch-Specific Rules
 
@@ -79,3 +80,4 @@ Before creating a pull request, the agent MUST review its own changes:
 - [ ] Verify formatting is applied (`./gradlew spotlessApply`)
 - [ ] Ensure commit messages follow the format above
 - [ ] Confirm no unintended files are included in the changeset
+- [ ] Follow `.github/PULL_REQUEST_TEMPLATE.md` if the project has one

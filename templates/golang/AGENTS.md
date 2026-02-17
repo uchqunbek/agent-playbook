@@ -200,10 +200,12 @@ go vet ./...                  # Static analysis
 <!-- CUSTOMIZE: Replace with your project's commit format -->
 - **Never commit directly to `main`** — always work on a dedicated branch
 - **Commit format:** Descriptive message explaining the change
+- **Never fabricate ticket numbers or issue IDs** — if none exists, omit it
 - **PR template:** Description, implemented changes, ticket link
 - **Branch naming:** `feature/`, `fix/`, `chore/` prefixes
 - **Self-review required** — review all changes before creating a pull request
 - **PRs required** — all changes merge through pull requests
+- **Follow `.github/PULL_REQUEST_TEMPLATE.md`** if the project has one
 
 **Full details:** [docs/git-conventions.md](docs/git-conventions.md)
 

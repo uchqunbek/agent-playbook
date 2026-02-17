@@ -7,7 +7,9 @@
 ## Commit Messages
 
 <!-- CUSTOMIZE: Replace with your project's commit conventions -->
-Use descriptive commit messages explaining the change:
+Use descriptive commit messages explaining the change.
+
+**Never fabricate ticket numbers or issue IDs** — if no Jira ticket exists, omit it entirely.
 
 ```
 Add login E2E tests for 2FA and magic link flows
@@ -21,7 +23,9 @@ Remove deprecated load matching tests
 ## Pull Request Template
 
 <!-- CUSTOMIZE: Replace with your project's PR template -->
-Every PR should include:
+If the project has a `.github/PULL_REQUEST_TEMPLATE.md`, read it and follow its structure exactly.
+
+Otherwise, every PR should include:
 
 - **PR description** — what changed and why
 - **Implemented** — specific changes made

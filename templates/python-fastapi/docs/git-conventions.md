@@ -11,6 +11,8 @@ Format: `[TICKET-NUMBER] type: description`
 
 Types: `feature`, `fix`, `misc`, `refactor`
 
+**Never fabricate ticket numbers** — if no Jira ticket exists, omit the prefix entirely.
+
 ```
 # Good
 [GPS-123] feature: Add location filtering by time range
@@ -29,7 +31,9 @@ updated stuff              # No ticket, no type, vague
 ## Pull Request Template
 
 <!-- CUSTOMIZE: Replace with your project's PR template -->
-Every PR should include:
+If the project has a `.github/PULL_REQUEST_TEMPLATE.md`, read it and follow its structure exactly.
+
+Otherwise, every PR should include:
 
 - **PR description** — what changed and why
 - **Implemented** — specific changes made
