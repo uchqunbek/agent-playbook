@@ -8,10 +8,12 @@
 
 Paste this into Claude Code, Cursor, or Copilot Chat when working on a new repository:
 
-> Set up AI agent documentation for this repository following the guide at
-> `https://github.com/superdispatch/agent-playbook`. Read the README and the
-> matching stack template, then create AGENTS.md, CLAUDE.md, and docs/ for
-> this project.
+```
+Set up AI agent documentation for this repository following the guide at
+https://github.com/superdispatch/agent-playbook. Read the README and the
+matching stack template, then create AGENTS.md, CLAUDE.md, and docs/ for
+this project.
+```
 
 ---
 
