@@ -6,14 +6,22 @@
 
 ## Commit Messages
 
-<!-- CUSTOMIZE: Replace with your project's commit conventions -->
-Use descriptive commit messages explaining the change:
+<!-- CUSTOMIZE: Replace ticket prefixes with your project's -->
+Format: `[TICKET-NUMBER] type: description`
+
+Types: `feature`, `fix`, `misc`, `refactor`
 
 ```
-Add location storage use case with validation
-Fix cache timeout handling for Redis failures
-Update SQLModel schema for new user fields
-Remove deprecated authentication endpoint
+# Good
+[GPS-123] feature: Add location filtering by time range
+[GPS-456] fix: Handle cache timeout in auth backend
+[GPS-789] refactor: Extract location validation to private method
+[GPS-101] misc: Update uv.lock dependencies
+
+# Bad
+fix bug                    # Missing ticket
+[GPS-123] updated code     # Vague description
+updated stuff              # No ticket, no type, vague
 ```
 
 ---
@@ -40,8 +48,8 @@ Every PR should include:
 Branches are typically named after their ticket or feature:
 
 ```
-feature/add-location-storage
-fix/cache-timeout-handling
+feature/GPS-123-add-location-filtering
+fix/GPS-456-cache-timeout
 chore/upgrade-fastapi-version
 ```
 
