@@ -4,6 +4,17 @@
 
 ---
 
+## Chat Prompt
+
+Paste this into Claude Code, Cursor, or Copilot Chat when working on a new repository:
+
+> Set up AI agent documentation for this repository following the guide at
+> `https://github.com/superdispatch/agent-playbook`. Read the README and the
+> matching stack template, then create AGENTS.md, CLAUDE.md, and docs/ for
+> this project.
+
+---
+
 ## Why This Exists
 
 AI coding agents (Claude Code, Cursor, GitHub Copilot) read your project documentation **before** writing a single line of code. The structure, size, and clarity of that documentation directly determines output quality.
@@ -160,17 +171,6 @@ See how these principles were applied to actual SuperDispatch repositories:
 |------------|---------------|
 | shipper-tms-backend (Java/Spring Boot) | [Example](./examples/shipper-tms-backend/) — 632-line monolith → 235-line layered + docs/ |
 | carrier-monolith (Python/Django) | [Example](./examples/carrier-monolith/) — Overlapping files → consolidated single source |
-
----
-
-## Chat Prompt
-
-Paste this into Claude Code, Cursor, or Copilot Chat when working on a new repository:
-
-> Set up AI agent documentation for this repository following the guide at
-> `https://github.com/superdispatch/ai-agent-guide`. Read the README and the
-> matching stack template, then create AGENTS.md, CLAUDE.md, and docs/ for
-> this project.
 
 ---
 
