@@ -1,4 +1,4 @@
-# AI Agent Guide
+# Agent Playbook
 
 > Best practices for structuring project documentation so AI coding agents produce high-quality, consistent code.
 
@@ -16,6 +16,20 @@ this project. Study this project's tech stack, build/test/lint commands,
 directory structure, and branch conventions first — tailor all generated
 documentation to this project's specifics instead of leaving generic
 placeholders.
+```
+
+### Update Existing Docs
+
+When the playbook has been updated with new rules or learnings, paste this to bring a target repo's docs in sync:
+
+```
+Update AI agent documentation in this repository using the latest guide at
+https://github.com/superdispatch/agent-playbook. Read the README and the
+matching stack template, then compare them against this project's existing
+AGENTS.md, CLAUDE.md, and docs/. Apply any new rules, conventions, or
+structural improvements from the playbook — but preserve all
+project-specific content (commands, paths, architecture, domain rules).
+Do not rewrite from scratch; make targeted additions and edits only.
 ```
 
 ---

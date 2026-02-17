@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping improve the AI Agent Guide. This document explains how to contribute effectively.
+Thank you for helping improve the Agent Playbook. This document explains how to contribute effectively.
 
 ---
 
