@@ -4,48 +4,93 @@
 
 ---
 
-## Framework
+## Framework & Setup
 
 <!-- CUSTOMIZE: Replace with your project's test framework -->
-- **Test runner:** Vitest / Jest
+- **Test runner:** Vitest with `jsdom` environment and `globals: true`
 - **Component testing:** React Testing Library
 - **User interactions:** `@testing-library/user-event`
-- **API mocking:** MSW (Mock Service Worker)
+- **API mocking:** MSW **v1** (Mock Service Worker)
+- **Setup file:** `setupTests.ts` — configures MSW, cleanup, custom matchers
 
 ---
 
-## Test Naming
+## Test File Organization
 
-Use `describe` + `it` with descriptive names:
+Tests live in `__tests__/` inside each feature directory:
 
-```typescript
-describe("UserCard", () => {
-  it("should display user name and email", () => { ... });
-  it("should call onEdit when edit button is clicked", () => { ... });
-  it("should show loading skeleton when data is pending", () => { ... });
-});
+<!-- CUSTOMIZE: Replace with your project's test structure -->
+```
+src/drivers/
+├── __tests__/
+│   ├── DriversPage.spec.tsx     # Page-level integration tests
+│   ├── DriverCard.spec.tsx      # Component tests
+│   └── DriverFormDrawer.spec.tsx
+├── testutils/                    # Feature-specific test helpers
+│   ├── mockDrivers.ts           # Mock factory functions
+│   └── driverMswHandlers.ts     # MSW handlers for this feature
+└── ...
 ```
 
 ---
 
-## Arrange-Act-Assert Pattern
+## renderWithProviders
+
+<!-- CUSTOMIZE: Replace with your project's test render helper -->
+Always use `renderWithProviders()` instead of bare `render()`. It wraps components with QueryClient, Theme, and Router:
 
 ```typescript
-it("should submit form with valid data", async () => {
+import { renderWithProviders } from 'shared/testutils/renderWithProviders';
+
+it('should display driver name', async () => {
+  renderWithProviders(<DriverCard driver={mockDriver} />);
+  expect(screen.getByText('John Doe')).toBeInTheDocument();
+});
+
+// With routing context (initialEntries for URL params)
+it('should render driver detail page', async () => {
+  renderWithProviders(<DriverDetailPage />, {
+    initialEntries: ['/drivers/abc-123'],
+  });
+  expect(await screen.findByText('John Doe')).toBeInTheDocument();
+});
+```
+
+What `renderWithProviders` wraps:
+- Fresh `QueryClient` (prevents cache leakage between tests)
+- `ThemeProvider` with the app theme
+- `MemoryRouter` with optional `initialEntries`
+
+---
+
+## Test Naming & Structure
+
+### describe/it Pattern
+
+```typescript
+describe('DriverCard', () => {
+  it('should display driver name and phone number', () => { ... });
+  it('should call onEdit when edit button is clicked', () => { ... });
+  it('should show inactive badge when driver is not active', () => { ... });
+});
+```
+
+### Arrange-Act-Assert
+
+```typescript
+it('should update driver name on form submit', async () => {
   // Arrange
-  const onSubmit = vi.fn();
   const user = userEvent.setup();
-  render(<LoginForm onSubmit={onSubmit} />);
+  renderWithProviders(<DriverFormDrawer open={true} driver={mockDriver} onClose={vi.fn()} />);
 
   // Act
-  await user.type(screen.getByLabelText("Email"), "test@example.com");
-  await user.type(screen.getByLabelText("Password"), "password123");
-  await user.click(screen.getByRole("button", { name: "Sign In" }));
+  await user.clear(screen.getByLabelText('Full Name'));
+  await user.type(screen.getByLabelText('Full Name'), 'Jane Doe');
+  await user.click(screen.getByRole('button', { name: 'Save' }));
 
   // Assert
-  expect(onSubmit).toHaveBeenCalledWith({
-    email: "test@example.com",
-    password: "password123",
+  await waitFor(() => {
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });
 ```
@@ -54,112 +99,201 @@ it("should submit form with valid data", async () => {
 
 ## Testing Library Queries
 
-Prefer accessible queries in this order:
+Prefer accessible queries in this priority order:
 
-1. `getByRole` — best for most elements
-2. `getByLabelText` — form inputs
-3. `getByText` — non-interactive elements
-4. `getByTestId` — **last resort only**
+1. **`getByRole`** — best for most elements (`button`, `textbox`, `heading`)
+2. **`getByLabelText`** — form inputs
+3. **`getByText`** — non-interactive text content
+4. **`getByTestId`** — **last resort only**
 
 ```typescript
 // ✅ Good — accessible queries
-screen.getByRole("button", { name: "Submit" });
-screen.getByLabelText("Email address");
-screen.getByText("Welcome back");
+screen.getByRole('button', { name: 'Save' });
+screen.getByLabelText('Full Name');
+screen.getByRole('heading', { name: 'Edit Driver' });
 
 // ❌ Bad — implementation-dependent queries
-container.querySelector(".submit-btn");
-screen.getByTestId("submit-button");
+container.querySelector('.save-btn');
+screen.getByTestId('save-button');
 ```
 
 ---
 
 ## User Interactions
 
-Always use `userEvent` over `fireEvent`:
+Always use `userEvent.setup()`. Never use `fireEvent`:
 
 ```typescript
-import userEvent from "@testing-library/user-event";
+import userEvent from '@testing-library/user-event';
 
 // ✅ Good — userEvent (simulates real user behavior)
 const user = userEvent.setup();
-await user.click(screen.getByRole("button"));
-await user.type(screen.getByLabelText("Name"), "John");
+await user.click(screen.getByRole('button', { name: 'Edit' }));
+await user.type(screen.getByLabelText('Name'), 'John');
+await user.selectOptions(screen.getByRole('combobox'), 'active');
 
 // ❌ Bad — fireEvent (synthetic events, less realistic)
-fireEvent.click(screen.getByRole("button"));
-fireEvent.change(screen.getByLabelText("Name"), { target: { value: "John" } });
+fireEvent.click(screen.getByRole('button'));
+fireEvent.change(input, { target: { value: 'John' } });
 ```
 
 ---
 
-## API Mocking with MSW
+## MSW v1 Mocking
 
-<!-- CUSTOMIZE: Replace with your project's API mocking setup -->
+> **CRITICAL:** This project uses MSW **v1**. Use `rest.get()` / `rest.post()` syntax.
+> Do **NOT** use MSW v2 syntax (`http.get`, `HttpResponse.json`).
+
+### Setup
+
+<!-- CUSTOMIZE: Replace with your project's MSW setup -->
 ```typescript
-import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-const server = setupServer(
-  http.get("/api/users/:id", ({ params }) => {
-    return HttpResponse.json({
-      id: params.id,
-      name: "Test User",
-      email: "test@example.com",
-    });
-  })
+// ✅ Correct — MSW v1 syntax
+const mockServer = setupServer(
+  rest.get('/api/drivers/:guid', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: {
+          guid: req.params.guid,
+          name: 'John Doe',
+          phone: '+1234567890',
+          is_active: true,
+        },
+      }),
+    );
+  }),
 );
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+// ❌ WRONG — MSW v2 syntax (will NOT work)
+// http.get('/api/drivers/:guid', () => HttpResponse.json({ ... }))
 
-it("should display user data from API", async () => {
-  render(<UserProfile userId="123" />);
-  expect(await screen.findByText("Test User")).toBeInTheDocument();
+beforeAll(() => mockServer.listen());
+afterEach(() => mockServer.resetHandlers());
+afterAll(() => mockServer.close());
+```
+
+### API Response Shape
+
+Match the actual API response format used by `requestCarrierAPI`:
+
+```typescript
+// Single resource — wrap in { data: ... }
+rest.get('/api/drivers/:guid', (req, res, ctx) => {
+  return res(ctx.json({ data: createMockDriver({ guid: req.params.guid as string }) }));
+});
+
+// Paginated list — { data: [...], pagination: { ... } }
+rest.get('/api/drivers', (req, res, ctx) => {
+  return res(ctx.json({
+    data: [createMockDriver(), createMockDriver({ name: 'Jane Doe' })],
+    pagination: { page: 1, size: 20, total: 2 },
+  }));
 });
 ```
 
-### Override handlers for specific tests:
+### Error Overrides
+
+Override handlers for specific error test cases:
 
 ```typescript
-it("should show error when API fails", async () => {
-  server.use(
-    http.get("/api/users/:id", () => {
-      return new HttpResponse(null, { status: 500 });
-    })
+it('should show error when API returns 500', async () => {
+  mockServer.use(
+    rest.get('/api/drivers/:guid', (req, res, ctx) => {
+      return res(ctx.status(500), ctx.json({ message: 'Internal Server Error' }));
+    }),
   );
 
-  render(<UserProfile userId="123" />);
-  expect(await screen.findByText("Something went wrong")).toBeInTheDocument();
+  renderWithProviders(<DriverDetailPage />, { initialEntries: ['/drivers/abc-123'] });
+  expect(await screen.findByText(/something went wrong/i)).toBeInTheDocument();
 });
+```
+
+---
+
+## Mock Factories
+
+Create per-feature mock factory functions in `testutils/`:
+
+```typescript
+// drivers/testutils/mockDrivers.ts
+interface MockDriverOverrides {
+  guid?: string;
+  name?: string;
+  phone?: string;
+  isActive?: boolean;
+}
+
+export function createMockDriver(overrides: MockDriverOverrides = {}): DriverDTO {
+  return {
+    guid: 'driver-guid-001',
+    name: 'John Doe',
+    phone: '+1234567890',
+    email: 'john@example.com',
+    isActive: true,
+    ...overrides,
+  };
+}
 ```
 
 ---
 
 ## Async Testing
 
-Use `findBy*` queries for async content:
+Use `findBy*` queries for content that appears after async operations:
 
 ```typescript
-// ✅ Good — waits for element to appear
-expect(await screen.findByText("User loaded")).toBeInTheDocument();
+// ✅ Good — findBy waits for element to appear
+expect(await screen.findByText('John Doe')).toBeInTheDocument();
 
-// ✅ Good — wait for element to disappear
-await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
+// ✅ Good — waitFor for complex assertions
+await waitFor(() => {
+  expect(screen.getAllByRole('row')).toHaveLength(3);
+});
 
-// ❌ Bad — no await, test is flaky
-expect(screen.getByText("User loaded")).toBeInTheDocument();
+// ✅ Good — wait for loading to resolve
+await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
+
+// ❌ Bad — no await, test will be flaky
+expect(screen.getByText('John Doe')).toBeInTheDocument();
+```
+
+---
+
+## Testing Forms
+
+Test form submission flow with `userEvent`:
+
+```typescript
+it('should submit driver form with valid data', async () => {
+  const onClose = vi.fn();
+  const user = userEvent.setup();
+  renderWithProviders(
+    <DriverFormDrawer open={true} driver={createMockDriver()} onClose={onClose} />,
+  );
+
+  await user.clear(screen.getByLabelText('Full Name'));
+  await user.type(screen.getByLabelText('Full Name'), 'Updated Name');
+  await user.click(screen.getByRole('button', { name: 'Save' }));
+
+  await waitFor(() => expect(onClose).toHaveBeenCalled());
+});
 ```
 
 ---
 
 ## Anti-Patterns
 
-1. **DO NOT** test implementation details (internal state, private methods)
-2. **DO NOT** use `container.querySelector` — use Testing Library queries
-3. **DO NOT** test styling or CSS classes
-4. **DO NOT** use `fireEvent` when `userEvent` is available
-5. **DO NOT** mock React hooks directly — mock the data layer instead
-6. **DO** prefer integration tests (render full component tree) over unit tests of individual functions
-7. **DO** test error states and loading states, not just happy paths
+| Anti-Pattern | Correct Approach |
+|---|---|
+| MSW v2 syntax (`http.get`, `HttpResponse`) | MSW v1: `rest.get()`, `res(ctx.json())` |
+| Bare `render()` without providers | `renderWithProviders()` |
+| Mocking React hooks (`vi.mock(useDriver)`) | Mock the API layer with MSW |
+| `container.querySelector()` | Use Testing Library queries (`getByRole`, etc.) |
+| `fireEvent` for user interactions | `userEvent.setup()` + `user.click()` / `user.type()` |
+| Hardcoded mock data inline | Mock factory functions (`createMockDriver()`) |
+| Testing internal state or implementation | Test what the user sees via rendered output |
+| Missing `await` on async queries | Use `findBy*` or `waitFor()` for async content |

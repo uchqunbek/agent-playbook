@@ -4,207 +4,294 @@
 
 ---
 
-## TypeScript Rules
-
-### Strict Mode
-
-TypeScript strict mode is enabled. Avoid `any`:
-
-```typescript
-// ✅ Good — explicit types
-function getUser(id: string): Promise<User> {
-  return apiClient.get(`/users/${id}`);
-}
-
-// ❌ Bad — any type
-function getUser(id: any): Promise<any> {
-  return apiClient.get(`/users/${id}`);
-}
-```
-
-If `any` is truly unavoidable, document why:
-
-```typescript
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- third-party library returns untyped data
-const rawData = externalLib.getData() as any;
-```
-
-### Interface vs Type
-
-Use `interface` for object shapes, `type` for unions/intersections:
-
-```typescript
-// ✅ Interface for object shapes
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-// ✅ Type for unions
-type Status = "idle" | "loading" | "success" | "error";
-
-// ✅ Type for intersections
-type AdminUser = User & { permissions: string[] };
-```
-
-### Named Exports
-
-```typescript
-// ✅ Good — named export
-export function UserProfile({ user }: UserProfileProps) { ... }
-
-// ❌ Bad — default export
-export default function UserProfile({ user }: UserProfileProps) { ... }
-```
-
----
-
 ## Component Patterns
 
-### Functional Components Only
+### `function` Keyword Components
+
+Always use the `function` keyword. Never use arrow functions:
 
 ```typescript
-// ✅ Good — functional component with destructured props
-interface UserCardProps {
-  user: User;
-  onEdit: (id: string) => void;
+// ✅ Good — function keyword + named export
+interface DriverCardProps {
+  driver: DriverDTO;
+  onEdit: (guid: string) => void;
 }
 
-export function UserCard({ user, onEdit }: UserCardProps) {
+export function DriverCard({ driver, onEdit }: DriverCardProps) {
   return (
-    <div>
-      <h2>{user.name}</h2>
-      <button onClick={() => onEdit(user.id)}>Edit</button>
-    </div>
+    <CardContainer>
+      <Typography variant="h6">{driver.name}</Typography>
+      <Button onClick={() => onEdit(driver.guid)}>Edit</Button>
+    </CardContainer>
   );
 }
 
-// ❌ Bad — class component
-class UserCard extends React.Component { ... }
+// ❌ Bad — arrow function component
+export const DriverCard = ({ driver }: DriverCardProps) => { ... };
 ```
 
-### Component File Structure
+### Props & Booleans
 
-<!-- CUSTOMIZE: Replace with your project's component structure -->
-```
-UserCard/
-├── UserCard.tsx           # Component implementation
-├── UserCard.test.tsx      # Tests
-└── UserCard.module.css    # Styles (if CSS Modules)
-```
-
-### Prop Types
-
-Always define prop interfaces. Destructure in the function signature:
+- Define `interface` (not `type`) for props, destructure in signature
+- Boolean props use prefixes: `is`, `has`, `should`, `can`, `did`, `will`, `does`
 
 ```typescript
-interface DialogProps {
-  isOpen: boolean;
-  title: string;
-  onClose: () => void;
-  children: React.ReactNode;
+interface DriverRowProps {
+  driver: DriverDTO;
+  isSelected: boolean;
+  hasPermission: boolean;
+  onSelect: (guid: string) => void;
+}
+```
+
+### File Ordering
+
+Every component file: **imports → interface → styled → component → helpers**
+
+```typescript
+import { ColorDynamic } from '@superdispatch/ui';        // 1. Imports
+import styled from 'styled-components';
+
+interface DriverCardProps { driver: DriverDTO; }          // 2. Props interface
+
+const CardContainer = styled.div`                         // 3. Styled components
+  border: 1px solid ${ColorDynamic.Silver400};
+`;
+
+export function DriverCard({ driver }: DriverCardProps) { // 4. Exported component
+  return <CardContainer>{formatName(driver)}</CardContainer>;
 }
 
-export function Dialog({ isOpen, title, onClose, children }: DialogProps) {
-  if (!isOpen) return null;
-  // ...
+function formatName(d: DriverDTO): string {               // 5. Helpers (private)
+  return `${d.firstName} ${d.lastName}`;
 }
 ```
 
 ---
 
-## Hook Patterns
+## File Structure & Naming
 
-### Custom Hooks
+### Feature Module Structure
 
-Extract reusable logic into custom hooks:
-
-```typescript
-// ✅ Good — custom hook for data fetching
-export function useUser(id: string) {
-  return useQuery({
-    queryKey: ["user", id],
-    queryFn: () => fetchUser(id),
-  });
-}
-
-// Usage
-function UserProfile({ userId }: { userId: string }) {
-  const { data: user, isLoading, error } = useUser(userId);
-  // ...
-}
+<!-- CUSTOMIZE: Replace with your project's feature structure -->
+```
+src/drivers/
+├── core/                # Shared: DriverDTO.ts, useDriverPermissions.ts
+├── data/                # DriversAPI.ts (hooks), DriversService.ts (requests)
+├── list/                # DriversPage.tsx, DriversTable.tsx
+├── detail/              # DriverDetailPage.tsx, DriverCard.tsx
+├── __tests__/           # DriversPage.spec.tsx, DriverCard.spec.tsx
+└── routes.ts            # RouteObject[] for this feature
 ```
 
-### Hook Rules
+### Naming Rules
 
-- Prefix with `use`
-- Return typed values
-- Handle loading/error states
-- Keep hooks focused on a single concern
+- **Components:** `PascalCase.tsx` — `DriverCard.tsx`
+- **Hooks:** `camelCase.ts` with `use` prefix — `useDriverPermissions.ts`
+- **DTOs:** `PascalCase.ts` — `DriverDTO.ts`
+- **Tests:** `PascalCase.spec.tsx` inside `__tests__/`
+
+---
+
+## Styling
+
+### styled-components + ColorDynamic
+
+Use `styled()` from `styled-components`. Never use inline styles, `className`, or raw colors:
+
+```typescript
+import styled from 'styled-components';
+import { ColorDynamic } from '@superdispatch/ui';
+
+// ✅ Good — styled component with ColorDynamic tokens
+const StatusBadge = styled.span<{ isActive: boolean }>`
+  color: ${({ isActive }) => (isActive ? ColorDynamic.Green300 : ColorDynamic.Silver500)};
+  background: ${ColorDynamic.White};
+`;
+
+// ❌ Bad — inline styles, className, or raw hex colors
+<span style={{ color: '#4caf50' }}>Active</span>
+<span className="status-badge">Active</span>
+```
+
+### MUI v4 + @superdispatch/ui Layout
+
+<!-- CUSTOMIZE: Replace with your project's UI library versions -->
+Use layout primitives from `@superdispatch/ui`: `Stack`, `Columns`, `Column`, `PageLayout`.
+
+```typescript
+import { Stack, Columns, Column, PageLayout } from '@superdispatch/ui';
+
+export function DriversPage() {
+  return (
+    <PageLayout>
+      <Stack space={2}>
+        <DriversTable />
+      </Stack>
+    </PageLayout>
+  );
+}
+```
 
 ---
 
 ## API Layer
 
-<!-- CUSTOMIZE: Replace with your project's API patterns (React Query, SWR, etc.) -->
+### requestCarrierAPI
+
+<!-- CUSTOMIZE: Replace with your project's API client name -->
+The API client uses URI template syntax:
+
 ```typescript
-// api/users.ts — API client functions
-export async function fetchUser(id: string): Promise<User> {
-  const response = await apiClient.get(`/users/${id}`);
-  return response.data;
+requestCarrierAPI('GET /drivers/{guid}', { guid });                          // path params
+requestCarrierAPI('GET /drivers{?page,size,status}', { page: 1, size: 20 }); // query params
+requestCarrierAPI('PUT /drivers/{guid}', { guid, ...updateData });           // body
+```
+
+### API Hooks
+
+```typescript
+// useAPIQuery — single resource
+export function useDriver(guid: string) {
+  return useAPIQuery(['drivers', guid], () =>
+    requestCarrierAPI('GET /drivers/{guid}', { guid }),
+  );
 }
 
-export async function updateUser(id: string, data: UpdateUserRequest): Promise<User> {
-  const response = await apiClient.put(`/users/${id}`, data);
-  return response.data;
+// useAPIListQuery — paginated list
+export function useDrivers(filters: DriverFilters) {
+  return useAPIListQuery(['drivers', filters], (page) =>
+    requestCarrierAPI('GET /drivers{?page,size,status}', { ...filters, page }),
+  );
+}
+
+// useAPIMutation — create/update/delete
+export function useUpdateDriver(guid: string) {
+  const queryClient = useQueryClient();
+  return useAPIMutation(
+    (values: DriverDTO) => requestCarrierAPI('PUT /drivers/{guid}', { guid, ...values }),
+    { onSuccess: () => queryClient.invalidateQueries(['drivers']) },
+  );
 }
 ```
+
+### Query Keys
+
+Keys: `['drivers']` (list), `['drivers', guid]` (detail), `['drivers', { status }]` (filtered).
 
 ---
 
 ## State Management
 
-<!-- CUSTOMIZE: Replace with your project's state management pattern -->
-Keep server state and client state separate:
+Use the highest-priority option that fits:
 
-- **Server state:** React Query / SWR (data from API)
-- **Client state:** Zustand / Context (UI state, forms, preferences)
-
+**1. URL Search Params** — filters, pagination, selected IDs:
 ```typescript
-// ✅ Good — server state via React Query
-const { data: users } = useQuery({ queryKey: ["users"], queryFn: fetchUsers });
+const [params, setParams] = useLocationParams({ page: 1, status: 'all' });
+```
 
-// ✅ Good — client state via Zustand
-const isMenuOpen = useAppStore((state) => state.isMenuOpen);
+**2. React Query Cache** — all server data:
+```typescript
+const { data: driver } = useAPIQuery(['drivers', guid], fetchDriver);
+```
+
+**3. React Context** — shared UI state across a subtree:
+```typescript
+const DrawerContext = createContext<DrawerState | null>(null);
+export const useDrawerContext = () => useNullableContext(DrawerContext, 'DrawerProvider');
+```
+
+**4. useState** — component-local UI state:
+```typescript
+const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 ```
 
 ---
 
-## Imports
+## Forms
 
-Use absolute imports via path aliases:
+### useAppFormik + FormikDrawer
+
+<!-- CUSTOMIZE: Replace with your project's form setup -->
+```typescript
+export function DriverFormDrawer({ open, onClose, driver }: DriverFormDrawerProps) {
+  const { mutate: updateDriver } = useUpdateDriver(driver.guid);
+  const formik = useAppFormik<DriverDTO>({
+    initialValues: toDriverDTO(driver),
+    validationSchema: driverSchema,
+    onSubmit: (values) => updateDriver(values, { onSuccess: onClose }),
+  });
+
+  return (
+    <FormikDrawer open={open} onClose={onClose} formik={formik}>
+      <FormikDrawerContent title="Edit Driver">
+        <FormikTextField name="name" label="Full Name" fullWidth />
+        <FormikPhoneField name="phone" label="Phone Number" fullWidth />
+      </FormikDrawerContent>
+    </FormikDrawer>
+  );
+}
+```
+
+### DTO with Yup Schema + InferType
 
 ```typescript
-// ✅ Good — absolute import
-import { UserCard } from "@/components/UserCard";
-import { useUser } from "@/hooks/useUser";
-
-// ❌ Bad — relative import climbing up directories
-import { UserCard } from "../../../components/UserCard";
+// drivers/core/DriverDTO.ts
+export const driverSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  phone: yupPhone().required('Phone is required'),
+  email: yup.string().email('Invalid email').nullable(),
+  isActive: yup.boolean().default(true),
+});
+export type DriverDTO = InferType<typeof driverSchema>;
 ```
 
 ---
 
-## Error Handling
+## Routing
 
+<!-- CUSTOMIZE: Replace with your project's router setup -->
 ```typescript
-// ✅ Good — error boundary for component tree errors
-<ErrorBoundary fallback={<ErrorPage />}>
-  <UserProfile />
-</ErrorBoundary>
+// App.tsx — compose feature routes via spread
+const router = createBrowserRouter([
+  { path: '/', element: <AppLayout />, children: [...driverRoutes, ...loadRoutes] },
+]);
 
-// ✅ Good — handling async errors
-const { error } = useUser(userId);
-if (error) return <ErrorMessage error={error} />;
+// drivers/routes.ts — each feature exports RouteObject[]
+export const driverRoutes: RouteObject[] = [
+  { path: 'drivers', element: <DriversPage /> },
+  { path: 'drivers/:guid', element: <DriverDetailPage /> },
+];
+
+// useLocationParams for URL-driven state
+const [params, setParams] = useLocationParams({ page: 1, size: 20, status: 'all' });
 ```
+
+---
+
+## @superdispatch Packages
+
+<!-- CUSTOMIZE: Replace with your project's package list -->
+| Package | Purpose |
+|---|---|
+| `@superdispatch/ui` | Layout (Stack, Columns, PageLayout), ColorDynamic tokens, FormikDrawer |
+| `@superdispatch/forms` | FormikTextField, FormikDateField, FormikPhoneField, FormikCheckboxField |
+| `@superdispatch/dates` | Date formatting utilities, date range pickers |
+| `@superdispatch/phones` | Phone formatting, validation helpers |
+| `@superdispatch/hooks` | useNullableContext, useLocationParams |
+
+---
+
+## Anti-Patterns
+
+| Anti-Pattern | Correct Approach |
+|---|---|
+| Arrow function components | `function` keyword with named export |
+| Default exports | Named exports only |
+| `className` or inline styles | `styled()` from `styled-components` |
+| Raw hex/rgb colors | `ColorDynamic` tokens from `@superdispatch/ui` |
+| `enum` keyword | String union types: `type Status = 'active' \| 'inactive'` |
+| `any` type | Explicit types; document with eslint-disable if unavoidable |
+| `type` for object shapes | `interface` (use `type` only for unions/intersections) |
+| Cross-feature imports | Move shared code to `shared/` or `core/` |
+| `React.FC` / `React.FunctionComponent` | Explicit return types or implicit inference |

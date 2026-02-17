@@ -1,17 +1,17 @@
 # Git Conventions
 
-> Commit and branch conventions. See [AGENTS.md](../AGENTS.md) for quick reference.
+> Commit, branch, and hook conventions. See [AGENTS.md](../AGENTS.md) for quick reference.
 
 ---
 
 ## Commit Message Format
 
-<!-- CUSTOMIZE: Replace with your project's commit format -->
+<!-- CUSTOMIZE: Replace ticket prefixes with your project's -->
 ```
 [TICKET-NUMBER] Short description of the change
 ```
 
-- **Ticket number** in square brackets: `[FE-1234]`, `[UI-5678]`
+- **Ticket number** in square brackets: `[TMS-1234]`, `[TMS-567]`
 - **Description** should be concise and describe *what* the change does
 
 ### Branch-Specific Rules
@@ -20,16 +20,16 @@
 | Branch Pattern | Commit Format | Notes |
 |---|---|---|
 | `hotfix*`, `chore*` | Free-form (non-empty) | No ticket number required |
-| All other branches | `[PROJECT-XXXX] Description` | Enforced by git hook |
+| All other branches | `[TMS-XXXX] Description` | Enforced by Husky commit-msg hook |
 
 ### Good Examples
 
 <!-- CUSTOMIZE: Replace with examples from your project's recent history -->
 ```
-[FE-1234] Add user profile page with avatar upload
-[UI-567] Fix date picker not closing on outside click
-[FE-890] Refactor form validation to use React Hook Form
-[UI-234] Update button component to support loading state
+[TMS-1234] Add driver detail page with card layout
+[TMS-567] Fix phone field validation in driver form
+[TMS-890] Refactor driver list to use useAPIListQuery
+[TMS-234] Update DriverCard to show inactive badge
 ```
 
 ### Bad Examples
@@ -37,7 +37,7 @@
 ```
 Fixed bug                          # No ticket number
 updated styles                     # No ticket number, vague
-[FE-1234]                          # Empty description
+[TMS-1234]                         # Empty description
 WIP                                # Not descriptive
 ```
 
@@ -48,17 +48,37 @@ WIP                                # Not descriptive
 <!-- CUSTOMIZE: Replace with your project's branch naming convention -->
 Common prefixes:
 
-- `feature/FE-XXXX-short-description`
+- `feature/TMS-XXXX-short-description`
 - `hotfix/short-description`
 - `chore/short-description`
 
 ---
 
-## Pre-commit Checks
+## Pre-commit Hooks (Husky)
 
-<!-- CUSTOMIZE: Replace with your project's pre-commit hooks -->
-Before committing, ensure:
+<!-- CUSTOMIZE: Replace with your project's Husky hook setup -->
+This project uses Husky for git hooks. **Never bypass with `--no-verify`.**
 
-1. `pnpm lint` passes (no ESLint/Prettier errors)
-2. `pnpm typecheck` passes (no TypeScript errors)
-3. `pnpm test` passes (no test failures)
+| Hook | Command | Purpose |
+|---|---|---|
+| `pre-commit` | `pnpm check` | ESLint + Prettier formatting |
+| `pre-push` | `pnpm check:types` | TypeScript type checking |
+| `commit-msg` | Ticket format validator | Enforces `[TMS-XXXX]` prefix |
+| `post-merge` | `pnpm install --force` | Ensures dependencies are up to date |
+
+**Important:** pnpm is enforced — npm and yarn are blocked by the `preinstall` script.
+
+---
+
+## PR Checklist
+
+Before opening a pull request, verify:
+
+<!-- CUSTOMIZE: Replace with your project's PR checks -->
+- [ ] `pnpm check` passes (ESLint + Prettier)
+- [ ] `pnpm check:types` passes (TypeScript)
+- [ ] `pnpm test` passes (all tests green)
+- [ ] JIRA ticket linked in PR description
+- [ ] No cross-feature imports (use `shared/` or `core/` for shared code)
+- [ ] New components use `function` keyword, named exports, `styled()`
+- [ ] New tests use `renderWithProviders()` and MSW v1 syntax
