@@ -108,21 +108,8 @@ your-repo/
 
 ## MCP (Model Context Protocol)
 
-MCP servers provide tools and context to AI agents. When using MCP:
-
-- **Documentation context** still lives in `AGENTS.md` and `docs/`
-- MCP servers provide **tool access** (Jira, Slack, databases), not conventions
-- Reference MCP tools in `AGENTS.md` if agents need to know they're available
-
-```markdown
-## Tools Available via MCP
-
-| Tool | Purpose |
-|------|---------|
-| Jira | Create/update tickets |
-| Sentry | Check error monitoring |
-| Slack | Send notifications |
-```
+MCP servers give AI agents access to external tools (Jira, Sentry, Figma, etc.).
+For setup instructions, see **[MCP Server Setup](./mcp-setup.md)**.
 
 ---
 

@@ -179,6 +179,7 @@ Every AI tool has its own config file. Each one should **point to AGENTS.md**, n
 | [Navigation Contracts](./guide/navigation-contracts.md) | Teaching agents to read selectively |
 | [Context Window Optimization](./guide/context-window-optimization.md) | Line budgets and condensing techniques |
 | [Tool Integration](./guide/tool-integration.md) | CLAUDE.md, Cursor, Copilot, MCP setup |
+| [MCP Server Setup](./guide/mcp-setup.md) | Setting up Jira, Notion, Figma, Sentry, Context7 for Claude, Cursor, Codex |
 | [Migration Checklist](./guide/migration-checklist.md) | Step-by-step adoption playbook |
 
 ---
