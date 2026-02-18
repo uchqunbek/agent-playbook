@@ -1,6 +1,8 @@
 # Recommended Tools — Claude Code
 
 > Plugins and skills for engineers, designers, and PMs using Claude Code.
+>
+> **See also:** [Overview](./recommended-tools.md) | [Cursor](./recommended-tools-cursor.md) | [Codex](./recommended-tools-codex.md)
 
 1. [How to Install](#how-to-install)
 2. [Essential Plugins (All Roles)](#essential-plugins-all-roles)

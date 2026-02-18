@@ -1,6 +1,8 @@
 # Recommended Tools — Codex
 
 > MCP servers and system instructions for engineers using OpenAI Codex CLI.
+>
+> **See also:** [Overview](./recommended-tools.md) | [Claude Code](./recommended-tools-claude-code.md) | [Cursor](./recommended-tools-cursor.md)
 
 1. [Capabilities](#capabilities)
 2. [MCP Servers](#mcp-servers)

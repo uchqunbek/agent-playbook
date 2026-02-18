@@ -1,6 +1,8 @@
 # Recommended Tools — Cursor
 
 > VS Code extensions for engineers, designers, and PMs using Cursor.
+>
+> **See also:** [Overview](./recommended-tools.md) | [Claude Code](./recommended-tools-claude-code.md) | [Codex](./recommended-tools-codex.md)
 
 1. [How to Install](#how-to-install)
 2. [Essential Extensions (All Roles)](#essential-extensions-all-roles)

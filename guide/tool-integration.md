@@ -111,6 +111,11 @@ your-repo/
 MCP servers give AI agents access to external tools (Jira, Sentry, Figma, etc.).
 For setup instructions, see **[MCP Server Setup](./mcp-setup.md)**.
 
+## Plugins, Extensions & Skills
+
+Each tool has its own ecosystem for extending agent capabilities.
+For curated recommendations by role, see **[Recommended Tools](./recommended-tools.md)**.
+
 ---
 
 ## Adding a New Tool

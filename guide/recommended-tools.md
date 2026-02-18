@@ -1,6 +1,8 @@
 # Recommended Tools
 
 > Curated tools for engineers, designers, and PMs across Claude Code, Cursor, and Codex.
+>
+> **Jump to:** [Claude Code](./recommended-tools-claude-code.md) | [Cursor](./recommended-tools-cursor.md) | [Codex](./recommended-tools-codex.md)
 
 1. [Tool Capabilities Overview](#tool-capabilities-overview)
 2. [Recommendations by Role](#recommendations-by-role)
