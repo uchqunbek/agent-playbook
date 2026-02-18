@@ -7,6 +7,9 @@
 1. [How to Install](#how-to-install)
 2. [Essential Plugins (All Roles)](#essential-plugins-all-roles)
 3. [Plugins by Role](#plugins-by-role)
+   - [Engineers](#engineers)
+   - [Designers](#designers)
+   - [Product Managers](#product-managers)
 4. [Quick Install Cheatsheet](#quick-install-cheatsheet)
 
 ---

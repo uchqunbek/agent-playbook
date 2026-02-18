@@ -4,9 +4,17 @@
 
 1. [Scope & Concepts](#scope--concepts)
 2. [Cloud MCP Servers (OAuth)](#cloud-mcp-servers-oauth)
+   - [Claude Code](#claude-code)
+   - [Cursor](#cursor)
+   - [Codex](#codex)
 3. [Community / Utility Servers](#community--utility-servers)
+   - [Context7](#context7)
 4. [Project-Scoped Config](#project-scoped-config)
 5. [After Setup](#after-setup)
+   - [Restart or Reload](#1-restart-or-reload)
+   - [Authorize](#2-authorize-oauth-servers-only)
+   - [Confirm Connection](#3-confirm-connection)
+   - [Removing a Server](#4-removing-a-server)
 ---
 
 ## Scope & Concepts

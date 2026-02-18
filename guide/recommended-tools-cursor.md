@@ -7,6 +7,9 @@
 1. [How to Install](#how-to-install)
 2. [Essential Extensions (All Roles)](#essential-extensions-all-roles)
 3. [Extensions by Role](#extensions-by-role)
+   - [Engineers](#engineers)
+   - [Designers](#designers)
+   - [Product Managers](#product-managers)
 4. [Quick Install Cheatsheet](#quick-install-cheatsheet)
 
 ---

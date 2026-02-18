@@ -6,7 +6,11 @@
 
 1. [Capabilities](#capabilities)
 2. [MCP Servers](#mcp-servers)
+   - [Recommended Servers by Role](#recommended-servers-by-role)
 3. [System Instructions](#system-instructions)
+   - [Per-session (CLI flag)](#per-session-cli-flag)
+   - [Per-project (file)](#per-project-file)
+   - [Per-user (config.toml)](#per-user-configtoml)
 4. [Configuration Reference](#configuration-reference)
 
 ---
