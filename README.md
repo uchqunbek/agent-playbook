@@ -166,6 +166,7 @@ Every AI tool has its own config file. Each one should **point to AGENTS.md**, n
 | Cypress / E2E QA | [`templates/cypress-e2e/`](./templates/cypress-e2e/) | cypress-e2e-web |
 | Python / FastAPI | [`templates/python-fastapi/`](./templates/python-fastapi/) | gps-tracking |
 | Go | [`templates/golang/`](./templates/golang/) | identity-token-status |
+| Swift / iOS | [`templates/swift-ios/`](./templates/swift-ios/) | ios-design-kit, carrier-tms-ios |
 | Common (all stacks) | [`templates/common/`](./templates/common/) | Universal pointers |
 
 ---
