@@ -6,6 +6,11 @@
 
 1. [Tool Capabilities Overview](#tool-capabilities-overview)
 2. [Recommendations by Role](#recommendations-by-role)
+   - [Everyone (Essentials)](#everyone-essentials)
+   - [Engineers](#engineers)
+   - [Frontend Engineers](#frontend-engineers)
+   - [Designers](#designers)
+   - [Product Managers](#product-managers)
 3. [Per-Tool Setup Guides](#per-tool-setup-guides)
 4. [Discovery Resources](#discovery-resources)
 
