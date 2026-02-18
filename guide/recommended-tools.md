@@ -1,128 +1,110 @@
 # Recommended Tools
 
-> Curated plugins and skills for engineers, designers, and PMs using Claude Code.
+> Curated tools for engineers, designers, and PMs across Claude Code, Cursor, and Codex.
 
-1. [How to Install](#how-to-install)
-2. [Essential Plugins (All Roles)](#essential-plugins-all-roles)
-3. [Plugins by Role](#plugins-by-role)
-4. [Quick Install Cheatsheet](#quick-install-cheatsheet)
-5. [Discovery Resources](#discovery-resources)
-
----
-
-## How to Install
-
-**Plugins** bundle slash commands, subagents, skills, MCP servers, and hooks into a single package. **Skills** are instruction files that teach Claude how to approach tasks (TDD, debugging, etc.).
-
-| Action | Command |
-|--------|---------|
-| Install from official directory | `/plugin install <name>@claude-plugin-directory` |
-| Add a community marketplace | `/plugin marketplace add <org/repo>` |
-| Install from a marketplace | `/plugin install <name>@<marketplace>` |
-| Browse installed plugins | `/plugin menu` |
+1. [Tool Capabilities Overview](#tool-capabilities-overview)
+2. [Recommendations by Role](#recommendations-by-role)
+3. [Per-Tool Setup Guides](#per-tool-setup-guides)
+4. [Discovery Resources](#discovery-resources)
 
 ---
 
-## Essential Plugins (All Roles)
+## Tool Capabilities Overview
 
-Every Super Dispatch team member should install these:
+| Capability | Claude Code | Cursor | Codex |
+|-----------|-------------|--------|-------|
+| Plugins / Extensions | `/plugin install` | VS Code extensions | — |
+| MCP servers | `claude mcp add` | `.cursor/mcp.json` | `codex mcp add` |
+| Custom rules | Skills | `.cursor/rules/` | System instructions |
+| Plugin marketplace | Yes | VS Code Marketplace | — |
 
-| Plugin | Source | Install | What It Does |
-|--------|--------|---------|--------------|
-| superpowers | [obra/superpowers](https://github.com/obra/superpowers) | `/plugin marketplace add obra/superpowers` | Core dev workflows: brainstorming, TDD, debugging, planning, code review |
-| context7 | Official | `/plugin install context7@claude-plugin-directory` | Up-to-date library docs — prevents hallucinated APIs |
-| security-guidance | Official | `/plugin install security-guidance@claude-plugin-directory` | Pre-commit vulnerability scanning (XSS, injection, secrets) |
-| commit-commands | Official | `/plugin install commit-commands@claude-plugin-directory` | Structured commit and branch workflows |
+For MCP server setup across all three tools, see the [MCP setup guide](./mcp-setup.md).
 
 ---
 
-## Plugins by Role
+## Recommendations by Role
+
+### Everyone (Essentials)
+
+| Purpose | Claude Code | Cursor | Codex |
+|---------|-------------|--------|-------|
+| Library docs | context7 plugin | Context7 MCP | Context7 MCP |
+| Security scanning | security-guidance plugin | ESLint security rules | — |
+| Commit workflows | commit-commands plugin | GitLens extension | — |
+| Dev workflows | superpowers plugin | — | — |
+| Error visibility | — | Error Lens extension | — |
+| PR management | — | GitHub Pull Requests extension | — |
 
 ### Engineers
 
-**All engineers:**
+| Purpose | Claude Code | Cursor | Codex |
+|---------|-------------|--------|-------|
+| Code review | pr-review-toolkit, code-review plugins | GitLens extension | — |
+| Browser testing | playwright plugin | — | — |
+| Autonomous tasks | ralph-loop plugin | — | — |
+| Import analysis | — | Import Cost extension | — |
+| API testing | — | REST Client extension | — |
+| Container support | — | Docker extension | — |
+| Error tracking | — | — | Sentry MCP |
+| Security skills | trailofbits skills marketplace | ESLint security plugin | — |
 
-| Plugin | Install | Purpose |
-|--------|---------|---------|
-| pr-review-toolkit | `/plugin install pr-review-toolkit@claude-plugin-directory` | Parallel PR review agents with confidence scoring |
-| code-review | `/plugin install code-review@claude-plugin-directory` | Automated diff analysis before human review |
-| playwright | `/plugin install playwright@claude-plugin-directory` | Browser testing via natural language |
-| ralph-loop | `/plugin install ralph-loop@claude-plugin-directory` | Autonomous multi-task sessions (migrations, CRUD, test coverage) |
+### Frontend Engineers
 
-**Security skills** (marketplace: [trailofbits/skills](https://github.com/trailofbits/skills)):
-
-| Skill | Purpose |
-|-------|---------|
-| static-analysis | CodeQL / Semgrep vulnerability scanning |
-| differential-review | Security-focused PR diff review |
-| insecure-defaults | Detect hardcoded secrets, weak crypto |
-
-**Frontend engineers** — add:
-
-| Plugin | Install | Purpose |
-|--------|---------|---------|
-| frontend-design | `/plugin install frontend-design@claude-plugin-directory` | Production-grade UI generation with intentional design choices |
-| figma | `/plugin install figma@claude-plugin-directory` | Design-to-code from Figma files — tokens, spacing, components |
-| chrome-devtools-mcp | Community | Live browser debugging with network/console/performance access |
+| Purpose | Claude Code | Cursor | Codex |
+|---------|-------------|--------|-------|
+| UI generation | frontend-design plugin | — | — |
+| Design-to-code | figma plugin | Figma for VS Code extension | Figma MCP |
+| CSS tooling | — | Tailwind IntelliSense, CSS Peek | — |
+| HTML/JSX editing | — | Auto Rename Tag extension | — |
+| Browser debugging | chrome-devtools-mcp | — | — |
 
 ### Designers
 
-| Plugin | Install | Purpose |
-|--------|---------|---------|
-| frontend-design | `/plugin install frontend-design@claude-plugin-directory` | Generate UI components from descriptions |
-| figma | `/plugin install figma@claude-plugin-directory` | Extract design tokens, screenshots, component metadata |
-| ui-designer | daymade marketplace | Extract design systems from screenshots/mockups |
-
-Cross-reference: [MCP setup guide](./mcp-setup.md) for Figma MCP server configuration.
+| Purpose | Claude Code | Cursor | Codex |
+|---------|-------------|--------|-------|
+| UI components | frontend-design plugin | — | — |
+| Figma integration | figma plugin | Figma for VS Code extension | Figma MCP |
+| Design systems | ui-designer (daymade) | — | — |
+| Color visualization | — | Color Highlight extension | — |
+| SVG editing | — | SVG Preview extension | — |
 
 ### Product Managers
 
-| Plugin | Install | Purpose |
-|--------|---------|---------|
-| ppt-creator | daymade marketplace | Slide deck generation with data visualization |
-| deep-research | daymade marketplace | Comprehensive research workflows |
-| competitors-analysis | daymade marketplace | Competitive research and analysis |
-| meeting-minutes-taker | daymade marketplace | Meeting documentation from notes |
-| internal-comms | anthropics marketplace | Status reports, newsletters, FAQs |
-
-Cross-reference: [MCP setup guide](./mcp-setup.md) for Jira + Notion server configuration.
+| Purpose | Claude Code | Cursor | Codex |
+|---------|-------------|--------|-------|
+| Presentations | ppt-creator (daymade) | — | — |
+| Research | deep-research (daymade) | — | — |
+| Competitor analysis | competitors-analysis (daymade) | — | — |
+| Meeting notes | meeting-minutes-taker (daymade) | — | — |
+| Internal comms | internal-comms (anthropics) | — | — |
+| Markdown editing | — | Markdown All in One extension | — |
+| Project tracking | — | — | Atlassian MCP |
+| Documentation | — | — | Notion MCP |
 
 ---
 
-## Quick Install Cheatsheet
+## Per-Tool Setup Guides
 
-```bash
-# === Everyone ===
-/plugin install context7@claude-plugin-directory
-/plugin install security-guidance@claude-plugin-directory
-/plugin install commit-commands@claude-plugin-directory
-/plugin marketplace add obra/superpowers
-
-# === Engineers ===
-/plugin install pr-review-toolkit@claude-plugin-directory
-/plugin install code-review@claude-plugin-directory
-/plugin install playwright@claude-plugin-directory
-/plugin marketplace add trailofbits/skills
-
-# === Frontend Engineers (add to above) ===
-/plugin install frontend-design@claude-plugin-directory
-/plugin install figma@claude-plugin-directory
-
-# === Designers ===
-/plugin install frontend-design@claude-plugin-directory
-/plugin install figma@claude-plugin-directory
-/plugin marketplace add daymade/claude-code-skills
-
-# === Product Managers ===
-/plugin marketplace add daymade/claude-code-skills
-/plugin marketplace add anthropics/skills
-```
+| Tool | Guide | What It Covers |
+|------|-------|---------------|
+| Claude Code | [recommended-tools-claude-code.md](./recommended-tools-claude-code.md) | Plugins, skills, install commands |
+| Cursor | [recommended-tools-cursor.md](./recommended-tools-cursor.md) | VS Code extensions by role |
+| Codex | [recommended-tools-codex.md](./recommended-tools-codex.md) | MCP servers, system instructions |
 
 ---
 
 ## Discovery Resources
 
+**Claude Code:**
 - [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — official Anthropic directory
 - [awesome-claude-code-plugins](https://github.com/ccplugins/awesome-claude-code-plugins) — curated community list
 - [awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) — skill catalog
 - `/plugin menu` — browse installed marketplaces interactively
+
+**Cursor:**
+- [VS Code Marketplace](https://marketplace.visualstudio.com/) — all VS Code extensions work in Cursor
+- `Cmd+Shift+X` — browse and install from within the editor
+
+**Codex:**
+- [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) — official MCP server directory
+- `codex mcp add` — add servers via CLI

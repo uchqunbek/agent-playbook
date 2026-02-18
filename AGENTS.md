@@ -176,6 +176,6 @@ Follow this step-by-step process for every task:
 | [guide/context-window-optimization.md](./guide/context-window-optimization.md) | Line budgets and condensing techniques |
 | [guide/tool-integration.md](./guide/tool-integration.md) | CLAUDE.md, Cursor, Copilot, MCP setup |
 | [guide/mcp-setup.md](./guide/mcp-setup.md) | MCP server setup for engineers |
-| [guide/recommended-tools.md](./guide/recommended-tools.md) | Recommended plugins and skills by role |
+| [guide/recommended-tools.md](./guide/recommended-tools.md) | Recommended tools by role (Claude Code, Cursor, Codex) |
 | [guide/migration-checklist.md](./guide/migration-checklist.md) | Step-by-step adoption playbook |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | How to contribute templates and guides |
