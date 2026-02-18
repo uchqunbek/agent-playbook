@@ -2,6 +2,11 @@
 
 > Setting up Jira, Notion, Figma, Sentry, and Context7 for Claude Code, Cursor, and Codex.
 
+1. [Scope & Concepts](#scope--concepts)
+2. [Cloud MCP Servers (OAuth)](#cloud-mcp-servers-oauth)
+3. [Community / Utility Servers](#community--utility-servers)
+4. [Project-Scoped Config](#project-scoped-config)
+5. [Verifying & Managing](#verifying--managing)
 ---
 
 ## Scope & Concepts
@@ -119,12 +124,7 @@ Slack and Datadog have no official MCP servers yet.
 
 For auth-free servers shared across the team, commit a config file to the repo root. Anyone who clones gets the server automatically.
 
-**Claude Code** (`.mcp.json`):
-```json
-{ "mcpServers": { "context7": { "command": "npx", "args": ["-y", "@upstash/context7-mcp@latest"] } } }
-```
-
-**Cursor** (`.cursor/mcp.json`):
+**Claude Code** (`.mcp.json`) / **Cursor** (`.cursor/mcp.json`) — same format:
 ```json
 { "mcpServers": { "context7": { "command": "npx", "args": ["-y", "@upstash/context7-mcp@latest"] } } }
 ```
