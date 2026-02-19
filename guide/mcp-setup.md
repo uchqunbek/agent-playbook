@@ -37,20 +37,20 @@ All four servers below require OAuth via a browser popup. Use **user scope**.
 
 | Server | URL | Notes |
 |--------|-----|-------|
-| Atlassian | `https://mcp.atlassian.com/v1/sse` | Covers both Jira and Confluence |
-| Notion | `https://mcp.notion.so/sse` | Only pages you have access to |
-| Figma | `https://mcp.figma.com/sse` | Design tokens, screenshots, metadata |
-| Sentry | `https://mcp.sentry.dev/sse` | `search_issues`, `get_issue_details` |
+| Atlassian | `https://mcp.atlassian.com/v1/mcp` | Covers both Jira and Confluence |
+| Notion | `https://mcp.notion.com/mcp` | Only pages you have access to |
+| Figma | `https://mcp.figma.com/mcp` | Design tokens, screenshots, metadata |
+| Sentry | `https://mcp.sentry.dev/mcp` | `search_issues`, `get_issue_details` |
 
 ### Claude Code
 
 One command per server — OAuth opens in browser automatically:
 
 ```bash
-claude mcp add atlassian --transport http --url https://mcp.atlassian.com/v1/sse --scope user
-claude mcp add notion    --transport http --url https://mcp.notion.so/sse --scope user
-claude mcp add figma     --transport http --url https://mcp.figma.com/sse --scope user
-claude mcp add sentry    --transport http --url https://mcp.sentry.dev/sse --scope user
+claude mcp add atlassian --transport http --url https://mcp.atlassian.com/v1/mcp --scope user
+claude mcp add notion    --transport http --url https://mcp.notion.com/mcp --scope user
+claude mcp add figma     --transport http --url https://mcp.figma.com/mcp --scope user
+claude mcp add sentry    --transport http --url https://mcp.sentry.dev/mcp --scope user
 ```
 
 ### Cursor
@@ -60,10 +60,10 @@ Add to `~/.cursor/mcp.json` (user scope). Cursor handles OAuth automatically:
 ```json
 {
   "mcpServers": {
-    "atlassian": { "url": "https://mcp.atlassian.com/v1/sse" },
-    "notion":    { "url": "https://mcp.notion.so/sse" },
-    "figma":     { "url": "https://mcp.figma.com/sse" },
-    "sentry":    { "url": "https://mcp.sentry.dev/sse" }
+    "atlassian": { "url": "https://mcp.atlassian.com/v1/mcp" },
+    "notion":    { "url": "https://mcp.notion.com/mcp" },
+    "figma":     { "url": "https://mcp.figma.com/mcp" },
+    "sentry":    { "url": "https://mcp.sentry.dev/mcp" }
   }
 }
 ```
@@ -75,7 +75,7 @@ Add to `~/.codex/config.toml`. SSE endpoints need the `mcp-remote` bridge — re
 ```toml
 [mcp_servers.atlassian]
 command = "npx"
-args = ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse"]
+args = ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/mcp"]
 ```
 
 ---
